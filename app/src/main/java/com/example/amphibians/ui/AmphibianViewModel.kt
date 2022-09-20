@@ -41,7 +41,6 @@ class AmphibianViewModel : ViewModel() {
 
     //  This will be used to display the details of an amphibian when a list item is clicked
 
-
     // Create a function that gets a list of amphibians from the api service and sets the
     //  status via a Coroutine
     fun getAmphibianList(){
