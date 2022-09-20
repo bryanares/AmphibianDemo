@@ -33,17 +33,14 @@ class AmphibianViewModel : ViewModel() {
     private val _status = MutableLiveData<AmphibianApiStatus>()
     val status: LiveData<AmphibianApiStatus> = _status
     //create an amphibian property with MutableLiveData and LiveData backing property for the list of Amphibian
-    private var _amphibians = listOf<Amphibian>()
-    val amphibians : List<Amphibian> = _amphibians
+    private var _amphibians = MutableLiveData<List<Amphibian>>()
+    val amphibians : LiveData<List<Amphibian>> = _amphibians
     //Create properties to represent MutableLiveData and LiveData for a single amphibian object.
     private val _amphibian = MutableLiveData<Amphibian>()
     val amphibian : LiveData<Amphibian> = _amphibian
 
     //  This will be used to display the details of an amphibian when a list item is clicked
 
-//    init {
-//        getAmphibianList()
-//    }
 
     // Create a function that gets a list of amphibians from the api service and sets the
     //  status via a Coroutine
@@ -51,11 +48,11 @@ class AmphibianViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = AmphibianApiStatus.LOADING
             try {
-                _amphibians = AmphibianApi.retrofitService.getAmphibian()
+                _amphibians.value = AmphibianApi.retrofitService.getAmphibian()
                 _status.value = AmphibianApiStatus.DONE
             }catch (e:Exception){
                 _status.value = AmphibianApiStatus.ERROR
-                _amphibians = listOf()
+                _amphibians.value = listOf()
             }
         }
     }
