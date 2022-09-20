@@ -19,6 +19,8 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
+import retrofit2.http.GET
 
 //Base Url property
 private const val BASE_URL = "https://developer.android.com/courses/pathways/android-basics-kotlin-unit-4-pathway-2/"
@@ -34,9 +36,17 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+//create an Api interface to get the list
 interface AmphibianApiService {
-    // TODO: Declare a suspended function to get the list of amphibians
+    @GET("android-basics-kotlin-unit-4-pathway-2-project-api.json")
+    suspend fun getAmphibian(): List<Amphibian>
 }
 
 // TODO: Create an object that provides a lazy-initialized retrofit service
+object AmphibianApi{
+    val retrofitService : AmphibianApiService by lazy {
+        retrofit.create(AmphibianApiService::class.java)
+    }
+}
+
 
